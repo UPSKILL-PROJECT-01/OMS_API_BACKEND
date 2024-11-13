@@ -1,6 +1,6 @@
 var express = require('express'); 
 var router = express.Router();
-const DriverController = require('../controllers/virusController');
+const virusController = require('../controllers/virusController');
 
 router.post('/', virusController.createVirus);
 router.get('/', virusController.getAllVirus);

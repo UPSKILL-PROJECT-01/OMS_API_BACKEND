@@ -6,7 +6,7 @@ var path = require('path');
 var mongoose = require('mongoose');
 mongoose.set('strictQuery', true);
 try {
-  mongoose.connect('mongodb+srv://u24t05:estaeapassword@upskilldb.hlsqn.mongodb.net/x_herois');
+  mongoose.connect('mongodb+srv://u24t05:estaeapassword@upskilldb.hlsqn.mongodb.net/oms_db');
   console.log(' ==> Connected to MongoDB');
 }
 catch (err) {
@@ -24,7 +24,7 @@ app.use('/api/virus', virusRoutes); //endpoint
 
 var port = 8080;
 app.listen(port);
-console.log("OMS-Api running in port " + port);
+console.log(" ==> OMS-Api running in port " + port);
 
 // const cors = require('cors');
 // app.use(cors());

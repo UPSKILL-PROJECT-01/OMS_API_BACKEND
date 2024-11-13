@@ -22,8 +22,7 @@ const VirusSchema = new Schema({
 	}
 });
 
-module.exports = mongoose.model('Virus'. VirusSchema);
-
+module.exports = mongoose.model('Virus', VirusSchema);
 
 
 

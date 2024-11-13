@@ -13,18 +13,30 @@ exports.createVirus = async function(req, res) {
 		await virus.save();
 		res.status(201).json({ message: 'Virus created!' });
 	} catch (err) {
-		if (err.codigoVirus) {
+		if (err.name === 'ValidationError') {
 			let errorMessage = 'Validation Error: ';
 			for (let field in err.errors) {
 				errorMessage += `${err.errors[field].message} `;
 			}
+			if (err.errors.codigoVirus) {
+				errorMessage += "Must be 'V' + 6 digits";
+			}	
 			res.status(400).json({ error: errorMessage.trim() });
 		} else if (err.code === 11000) {
 			res.status(400).json({ error: 'Duplicate codigoVirus. Please use unique values.'
 			});
 		} else {
-			res.status(500).json({ error: 'Error saving driver', details: err.message });
+			res.status(500).json({ error: 'Error saving virus', details: err.message });
 		}
+	}
+};
+
+exports.getAllVirus = async function(req, res) {
+	try {
+		const virus = await virusModel.find();
+		res.status(200).json(virus);
+	} catch (err) {
+		res.status(500).json({ error: 'Error retrieving virus', details: err.message });
 	}
 };
 
