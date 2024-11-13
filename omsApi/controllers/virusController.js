@@ -31,13 +31,28 @@ exports.createVirus = async function(req, res) {
 	}
 };
 
+// PARA TESTE -> PARA ELIMINAR
 exports.getAllVirus = async function(req, res) {
 	try {
 		const virus = await virusModel.find();
 		res.status(200).json(virus);
 	} catch (err) {
-		res.status(500).json({ error: 'Error retrieving virus', details: err.message });
+		res.status(500).json({ error: 'Erro ao recuperar virus', details: err.message });
 	}
+};
+
+
+exports.getRecomendacaoStatus = async function(req, res) {
+	const { id } = req.params;
+    try {
+		const recomendacao = await recomendacoesModel.findById(id);
+        if (!recomendacao) {
+			return res.status(404).json({ error: 'Recomendação não encontrada' });
+        }
+        res.status(200).json({ status: recomendacao.status });
+    } catch (err) {
+		res.status(500).json({ error: 'Erro ao recuperar a recomendação', details: err.message });
+    }
 };
 
 

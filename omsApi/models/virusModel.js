@@ -20,7 +20,7 @@ const VirusSchema = new Schema({
 		type: String,
 		required: true
 	}
-});
+}, { collection: 'virus' });
 
 module.exports = mongoose.model('Virus', VirusSchema);
 

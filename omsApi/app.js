@@ -22,9 +22,12 @@ app.use(bodyParser.json());
 var virusRoutes = require('./routes/virus'); //rotas
 app.use('/api/virus', virusRoutes); //endpoint
 
+var recomendacoesRoutes = require('./routes/recomendacoes'); //rotas
+app.use('/api/recomendacoes', recomendacoesRoutes); //endpoint
+
 var port = 8080;
 app.listen(port);
-console.log(" ==> OMS-Api running in port " + port);
+console.log(" ==> OMS-Api running in port: " + port + "\n");
 
 // const cors = require('cors');
 // app.use(cors());
