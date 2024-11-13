@@ -95,3 +95,30 @@
 - app.js
 
 Para implementar processos de autenticação e autorização para os recursos definidos, usaremos o framework Express.js com MongoDB para a API e JWT (JSON Web Tokens) para autenticação.
+
+### Requisitos Funcionais: 
+#### Cenários do utilizador
+- O utilizador pode registar-se na aplicação.
+- O utilizador pode autenticar-se na aplicação.
+- O utilizador pode visualizar a lista de zonas.
+- O utilizador pode visualizar a lista de países.
+- O utilizador pode visualizar a lista de vírus.
+- O utilizador pode visualizar a lista de surtos.
+- O utilizador pode visualizar a lista de recomendações.
+- O utilizador pode visualizar os detalhes de uma zona.
+- O utilizador pode visualizar os detalhes de um país.
+- O utilizador pode visualizar os detalhes de um vírus.
+- O utilizador pode visualizar os detalhes de um surto.
+- O utilizador pode visualizar os detalhes de uma recomendação.
+#### Cenários do administrador
+- Mesmas do utilizador.
+- O administrador pode criar uma zona.
+- O administrador pode criar um país.
+- O administrador pode deletar uma zona.
+- O administrador pode deletar um país.
+### Cenários do funcionário
+- Mesmas do utilizador.
+- O funcionário pode criar um vírus.
+- O funcionário pode criar um surto.
+- O funcionário pode criar uma recomendação.
+- O 
