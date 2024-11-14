@@ -1,4 +1,6 @@
 const SurtoModel = require('../models/surtosModel');
+const ZonaModel = require('../models/zonaModel');
+const PaisModel = require('../models/paisModel');
 
 exports.createSurto = async function(req, res) {
 	console.log("POST: /api/surtos - " + JSON.stringify(req.body));
@@ -6,16 +8,15 @@ exports.createSurto = async function(req, res) {
 
 	try {
 		// codigoVirus = await VirusModel.findOne({codigoVirus: codigoVirus});
-		// codigoZona = await ZonaModel.findOne({codigoZona: codigoZona});
 		const surto = new SurtoModel({
 			codigoSurto: codigoSurto,
 			codigoVirus: codigoVirus,
 			codigoZona: codigoZona,
-			dataDeteccao: new Date(dataDeteccao),
+			dataDeteccao: dataDeteccao,
 			dataFim: dataFim ? new Date(dataFim) : null
 		});
 		await surto.save();
-		res.status(201).json({message: 'Surto criado!'});
+		res.status(201).json({message: 'Surto criado!', surto: surto});
 	} catch (err) {
 		if (err.name === 'ValidationError') {
 			let errorMessage = 'Erro de Validação: ';
@@ -31,19 +32,18 @@ exports.createSurto = async function(req, res) {
 	}
 }
 
-function parseDateString(dateString) {
-	if (!dateString)
-		return null;
-	return new Date(dateString);
-}
 
 exports.getSurtosByPais = async function(req, res) {
-	console.log("GET:/api/paises/surtos by Cp: " + req.params.cp);
+	console.log("GET:/api/paises/surtos by codigoPais: " + req.params.cp);
 	try {
-		// const pais = await PaisModel.findOne({codigoPais: req.params.cp});
-		// const zona = pais.codigoZona;
-		// ================ EDITAR req.params.cp para 'zona' ========================
-		const surtos = await SurtoModel.find({codigoZona: req.params.cp});
+		const pais = await PaisModel.findOne({codigoPais: req.params.cp});
+		if (!pais)
+		{
+			console.log(`codigoPais ${req.params.cp} não existe.`);
+			return res.status(204).send();
+		}
+		const zona = pais.codigoZona;
+		const surtos = await SurtoModel.find({codigoZona: zona});
 		res.status(200).json(surtos);
 	} catch (err) {
 		res.status(500).json({error: 'Erro ao buscar surtos', details: err});

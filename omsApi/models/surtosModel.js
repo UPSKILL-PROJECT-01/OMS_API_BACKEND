@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const Zona = require('../models/zonaModel');
 
 const SurtoSchema = new Schema({
 	codigoSurto: {
@@ -15,8 +16,14 @@ const SurtoSchema = new Schema({
 	},
 	codigoZona: {
 		type: String,
-		ref: 'Zona',
-		required: true
+		required: true,
+		validate: {
+			validator: async function(v) {
+				const zona = await Zona.findOne({ codigoZona: v });
+				return !!zona;
+			},
+			message: props => `${props.value} não é um codigoZona válido.`
+		}
 	},
 	dataDeteccao: {
 		type: Date,

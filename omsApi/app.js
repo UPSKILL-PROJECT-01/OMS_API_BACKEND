@@ -6,15 +6,11 @@ var mongoose = require('mongoose');
 mongoose.set('strictQuery', true);
 
 try {
-	mongoose.connect('mongodb+srv://ebmarque:ebmarque@ebmarque.udfns.mongodb.net/OMS_API');
+	mongoose.connect('mongodb+srv://leilaticiane1:leila@cluster0.snjbq.mongodb.net/omsApi');
 	console.log('Conexão com a base de dados estabelecida com sucesso.')
 } catch (err) {
 	console.log('Error ao conectar com a base de dados:' + err);
 }
-
-var mongoose = require('mongoose');
-mongoose.set('strictQuery', true);
-mongoose.connect('mongodb+srv://leilaticiane1:leila@cluster0.snjbq.mongodb.net/omsApi');
 
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended: true}));
@@ -37,8 +33,6 @@ var paisRouter = require('./routes/paisRoutes');
 var zonaRouter = require('./routes/zonaRoutes');
 app.use('/api/paises', paisRouter);
 app.use('/api/zonas', zonaRouter);
-// var indexRouter = require('./routes/index');
-// app.use('/', indexRouter);
 
 var SurtoRoutes = require('./routes/surtosRoute');
 app.use('/api/surtos/', SurtoRoutes);
