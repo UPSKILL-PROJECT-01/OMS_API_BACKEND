@@ -57,12 +57,15 @@ exports.getRecomendacaoStatus = async function(req, res) {
 
 
 // teste
-
 exports.getRecomendacoesByPais = async function(req, res) {
     const { codigoPais } = req.params;
     try {
         const recomendacoes = await recomendacoesModel.find({ codigoPais });
-        res.status(200).json(recomendacoes);
+        const activeRecomendacoes = recomendacoes.filter(recomendacao => {
+            const currentDate = new Date();
+            return currentDate <= recomendacao.dataValidade;
+        });
+        res.status(200).json(activeRecomendacoes);
     } catch (err) {
         res.status(500).json({ error: 'Erro ao recuperar recomendações', details: err.message });
     }

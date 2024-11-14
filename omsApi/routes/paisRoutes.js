@@ -25,5 +25,4 @@ router.delete('/id/:id', PaisController.deleteCountry);
 const recomendacoesController = require('../controllers/recomendacoesControllers');
 router.get('/:codigoPais/recomendacoes', PaisController.getByCode, recomendacoesController.getRecomendacoesByPais);
 
-
 module.exports = router;
