@@ -15,3 +15,16 @@ router.get('/virus/:cv', SurtosController.getSurtosAtivosByVirus);
 router.get('/virus/:cv/surtos', SurtosController.getSurtosOcorridosByVirus);
 
 module.exports = router;
+
+//GETTERS: 
+// GET  /api/surtos/
+// GET: /api/surtos/ativos
+// GET: /api/surtos/ocorridos
+// GET: /api/surtos/virus/:cv/
+// GET: /api/surtos/virus/:cv/ocorridos
+// GET: /api/surtos/virus/:cv/ativos
+// GET  /api/surtos/zona/:cz/
+// GET  /api/surtos/zona/:cz/ativos
+// GET  /api/surtos/zona/:cz/ocorridos
+// GET: /api/surtos/pais/:cp/ativos
+// GET: /api/surtos/pais/:cp/ocorridos

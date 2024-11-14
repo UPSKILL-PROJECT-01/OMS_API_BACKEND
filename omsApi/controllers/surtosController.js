@@ -57,9 +57,9 @@ function parseDateString(dateString) {
 	const day = parseInt(parts[0], 10);
 	const month = parseInt(parts[1], 10) - 1;
 	const year = parseInt(parts[2], 10);
-	if (year < 1900 || year > 2100) {
-		return null;
-	}
+	// if (year < 100) {
+	// 	return null;
+	// }
 	const date = new Date(year, month, day);
 	if (
 		date.getFullYear() === year &&
@@ -71,16 +71,12 @@ function parseDateString(dateString) {
 	return null;
 }
 
-
 exports.getSurtosByPais = async function(req, res) {
 	console.log("GET:/api/paises/surtos by codigoPais: " + req.params.cp);
 	try {
 		const pais = await PaisModel.findOne({codigoPais: req.params.cp});
 		if (!pais)
-		{
-			console.log(`codigoPais ${req.params.cp} não existe.`);
-			return res.status(204).send();
-		}
+			return res.status(404).json({message: `codigoPais ${req.params.cp} não existe.`});
 		const zona = pais.codigoZona;
 		const surtos = await SurtoModel.find({codigoZona: zona});
 		res.status(200).json(surtos);
@@ -115,7 +111,6 @@ exports.getSurtosOcorridosByVirus = async function(req, res) {
 	}
 };
  
-
 exports.updateFinalDateSurto = async function(req, res) {
 	try {
 		const { dataFim } = req.body;
