@@ -27,12 +27,12 @@ module.exports = router;
 
 // =============================================== BENE ->
 // GET  /api/surtos/zona/:cz/
-router.get('/virus/zona/:cz', SurtosController.allSurtosByZone);
+router.get('/zona/:cz', SurtosController.allSurtosByZone);
 // GET  /api/surtos/zona/:cz/ativos
-router.get('/virus/zona/:cz/ativos', SurtosController.SurtosAtivosByZone);
+router.get('/zona/:cz/ativos', SurtosController.SurtosAtivosByZone);
 // GET  /api/surtos/zona/:cz/ocorridos
-router.get('/virus/zona/:cz/ocorridos', SurtosController.SurtosOcorridosByZone);
+router.get('/zona/:cz/ocorridos', SurtosController.SurtosOcorridosByZone);
 // GET: /api/surtos/pais/:cp/ativos
-router.get('/virus/zona/:cp/ativos', SurtosController.SurtosAtivosByPais);
+router.get('/pais/:cp/ativos', SurtosController.SurtosAtivosByPais);
 // GET: /api/surtos/pais/:cp/ocorridos
-router.get('/virus/zona/:cp/ocorridos', SurtosController.SurtosOcorridosByPais);
+router.get('/pais/:cp/ocorridos', SurtosController.SurtosOcorridosByPais);

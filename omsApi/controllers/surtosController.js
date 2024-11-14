@@ -130,7 +130,7 @@ exports.updateFinalDateSurto = async function (req, res) {
 };
 
 exports.allSurtosByZone = async function (req, res) {
-	console.log("GET:api/virus//virus/zona/:cz Todos os surtos para a zona: " + req.params.cz);
+	console.log("GET:api/surtos/zona/:cz Todos os surtos para a zona: " + req.params.cz);
 	const codigoZona = req.params.cz;
 	try {
 		const surtos = await SurtoModel.find({ codigoZona: codigoZona });
@@ -144,7 +144,7 @@ exports.allSurtosByZone = async function (req, res) {
 }
 
 exports.SurtosAtivosByZone = async function (req, res) {
-	console.log("GET:api/virus//virus/zona/:cz/ativos Surtos ATIVOS para a zona: " + req.params.cz);
+	console.log("GET:api/surtos/zona/:cz/ativos Surtos ATIVOS para a zona: " + req.params.cz);
 	const codigoZona = req.params.cz;
 	try {
 		const surtos = await SurtoModel.find({ codigoZona: codigoZona, dataFim: null });
@@ -158,7 +158,7 @@ exports.SurtosAtivosByZone = async function (req, res) {
 }
 
 exports.SurtosOcorridosByZone = async function (req, res) {
-	console.log("GET:api/virus//virus/zona/:cz/ativos Surtos OCORRIDOS para a zona: " + req.params.cz);
+	console.log("GET:api/surtos/zona/:cz/ativos Surtos OCORRIDOS para a zona: " + req.params.cz);
 	const codigoZona = req.params.cz;
 	try {
 		const surtos = await SurtoModel.find({ codigoZona: codigoZona, dataFim: { $ne: null } });
@@ -172,7 +172,7 @@ exports.SurtosOcorridosByZone = async function (req, res) {
 }
 
 exports.SurtosAtivosByPais = async function (req, res) {
-	console.log("GET:api/virus//virus/zona/:cp/ativos Surtos ATIVOS para o país: " + req.params.cp);
+	console.log("GET:api/surtos/zona/:cp/ativos Surtos ATIVOS para o país: " + req.params.cp);
 	const codigoPais = req.params.cp;
 	try {
 		const surtos = await SurtoModel.find({ codigoPais: codigoPais, dataFim: null });
@@ -186,7 +186,7 @@ exports.SurtosAtivosByPais = async function (req, res) {
 }
 
 exports.SurtosOcorridosByPais = async function (req, res) {
-	console.log("GET:api/virus//virus/zona/:cp/ativos Surtos OCORRIDOS para o país: " + req.params.cp);
+	console.log("GET:api/surtos/zona/:cp/ativos Surtos OCORRIDOS para o país: " + req.params.cp);
 	const codigoPais = req.params.cp;
 	try {
 		const surtos = await SurtoModel.find({ codigoPais: codigoPais, dataFim: { $ne: null } });
