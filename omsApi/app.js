@@ -24,7 +24,7 @@ app.use(cors());
 // app.use('/', indexRouter);
 
 var SurtoRoutes = require('./routes/surtosRoute');
-app.use('/', SurtoRoutes);
+app.use('/api/surtos/', SurtoRoutes);
 
 module.exports = app;
 

@@ -26,7 +26,7 @@ const SurtoSchema = new Schema({
 				validator: function(v) {
 					return v < new Date();
 				},
-				message: props => `${props.value} is not a valid date or it is in the future.`
+				message: props => `${props.value} não é uma data válida ou está no futuro.`
 			}
 		]
 	},
@@ -38,7 +38,7 @@ const SurtoSchema = new Schema({
 				validator: function(v) {
 					return !v || (v <= new Date() && v >= this.dataDeteccao);
 				},
-				message: props => `${props.value} is not a valid date, it is in the future, or it is before the detection date.`
+				message: props => `${props.value} não é uma data válida, está no futuro ou é anterior à data de detecção.`
 			}
 		]
 	}

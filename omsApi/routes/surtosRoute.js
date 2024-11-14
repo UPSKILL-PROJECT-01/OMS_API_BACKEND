@@ -2,10 +2,13 @@ var express = require('express');
 var router = express.Router();
 const SurtosController = require('../controllers/surtosController');
 
-router.post('/api/surtos', SurtosController.createSurto);
-// router.get('/api/paises/:cp/surtos', SurtosController.getSurtosByPais);
-// router.get('/api/surtos/virus/:cv', SurtosController.getSurtosAtivosByVirus);
-// router.get('/api/virus/:cv/surtos', SurtosController.getSurtosOcorridosByVirus);
-// router.put('/api/surtos/:cp/:cv', SurtosController.updateFinalDateSurto);
+router.post('/', SurtosController.createSurto);
+// ISSO VAI PARA PAISES: /api/paises/:cp/surtos
+// router.get('/:cp/surtos', SurtosController.getSurtosByPais);
+// ISSO VAI PARA VIRUS: 
+// router.get('/:cv', SurtosController.getSurtosAtivosByVirus);
+// ISSO VAI PARA VIRUS: 
+// router.get('/:cv/surtos', SurtosController.getSurtosOcorridosByVirus);
+// router.put('/:cp/:cv', SurtosController.updateFinalDateSurto);
 
 module.exports = router;
