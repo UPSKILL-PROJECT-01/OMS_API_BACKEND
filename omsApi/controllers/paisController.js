@@ -56,36 +56,36 @@ exports.getById = async function (req, res) {
 	}
 }
 
-//fred
-exports.getByCode = async function(req, res, next) {
-    console.log('GET /api/paises/codigoPais/:codigoPais get by codigoPais: ' + req.params.codigoPais);
-    const { codigoPais } = req.params;
-    try {
-        const pais = await PaisModel.findOne({ codigoPais });
-        if (!pais) {
-            return res.status(404).json({ error: 'País não encontrado' });
-        }
-        req.pais = pais;
-        next();
-    } catch (err) {
-        res.status(500).json({ error: 'Erro ao recuperar o país', details: err.message });
-    }
-};
+// //fred
+// exports.getByCode = async function(req, res, next) {
+//     console.log('GET /api/paises/codigoPais/:codigoPais get by codigoPais: ' + req.params.codigoPais);
+//     const { codigoPais } = req.params;
+//     try {
+//         const pais = await PaisModel.findOne({ codigoPais });
+//         if (!pais) {
+//             return res.status(404).json({ error: 'País não encontrado' });
+//         }
+//         req.pais = pais;
+//         next();
+//     } catch (err) {
+//         res.status(500).json({ error: 'Erro ao recuperar o país', details: err.message });
+//     }
+// };
 
-//bene
-// exports.getByCode = async function (req, res) {
-// 	console.log('GET /api/pises/codigoPais/:codigoPais get by codigoPais: ' + req.params.codigoPais);
-// 	try {
-// 		const code = req.params.codigoPais;
-// 		const pais = await PaisModel.findOne({ codigoPais: code });
-// 		if (!pais) {
-// 			res.status(404).json({ message: 'País não encontrado' });
-// 		}
-// 		res.status(200).json(pais);
-// 	} catch (err) {
-// 		res.status(500).json({ message: 'Erro ao consultar país:', details: err });
-// 	}
-// }
+
+exports.getByCode = async function (req, res) {
+	console.log('GET /api/pises/codigoPais/:codigoPais get by codigoPais: ' + req.params.codigoPais);
+	try {
+		const code = req.params.codigoPais;
+		const pais = await PaisModel.findOne({ codigoPais: code });
+		if (!pais) {
+			res.status(404).json({ message: 'País não encontrado' });
+		}
+		res.status(200).json(pais);
+	} catch (err) {
+		res.status(500).json({ message: 'Erro ao consultar país:', details: err });
+	}
+}
 
 exports.getByZoneCode = async function (req, res) {
 	console.log('GET /api/pises/codigoZona/:codigoZona get by codigoZona: ' + req.params.codigoZona);
