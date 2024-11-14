@@ -31,7 +31,9 @@ var indexRouter = require('./routes/index');
 app.use('/', indexRouter);
 
 var paisRouter = require('./routes/paisRoutes');
+var zonaRouter = require('./routes/zonaRoutes');
 app.use('/api/paises', paisRouter);
+app.use('/api/zonas', zonaRouter);
 
 module.exports = app;
 

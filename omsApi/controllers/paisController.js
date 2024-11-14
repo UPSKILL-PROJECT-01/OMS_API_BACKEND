@@ -1,14 +1,14 @@
 const PaisModel = require('../models/paisModel');
-// const ZonaModel = require('../models/zonaModel');
+const ZonaModel = require('../models/zonaModel');
 
 exports.createCountry = async function (req, res) {
 	console.log('POST /api/paises Create country - ' + JSON.stringify(req.body));
 	const { nome, codigoPais, codigoZona, populacao, area } = req.body;
 	try {
-		// const Zona = await ZonaModel.findOne({ codigoZona: codigoZona });
-		// if (!Zona) {
-		// 	return res.status(204).json({ message: `Zona: ${codigoZona} não encontrado.` });
-		// }
+		const Zona = await ZonaModel.findOne({ codigoZona: codigoZona });
+		if (!Zona) {
+			return res.status(204).json({ message: `Zona: ${codigoZona} não encontrado.` });
+		}
 		const Pais = new PaisModel({
 			nome: nome,
 			codigoPais: codigoPais,
