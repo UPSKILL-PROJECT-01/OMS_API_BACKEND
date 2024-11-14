@@ -4,17 +4,31 @@ const PaisModel = require('../models/paisModel');
 
 exports.createSurto = async function(req, res) {
 	console.log("POST: /api/surtos - " + JSON.stringify(req.body));
-	var {codigoSurto, codigoVirus, codigoZona, dataDeteccao, dataFim} = req.body;
+	const { codigoSurto, codigoVirus, codigoZona, dataDeteccao, dataFim } = req.body;
 
 	try {
-		// codigoVirus = await VirusModel.findOne({codigoVirus: codigoVirus});
+		const parsedDataDeteccao = parseDateString(dataDeteccao);
+		if (!parsedDataDeteccao) {
+			return res.status(400).json({ error: 'dataDeteccao não é válida ou está no formato incorreto (deve ser dd/MM/yyyy).' });
+		}
+		let parsedDataFim = null;
+		if (dataFim) {
+			parsedDataFim = parseDateString(dataFim);
+			if (!parsedDataFim) {
+				return res.status(400).json({ error: 'dataFim não é válida ou está no formato incorreto (deve ser dd/MM/yyyy).' });
+			}
+			if (parsedDataFim < parsedDataDeteccao) {
+				return res.status(400).json({ error: 'dataFim não pode ser anterior a dataDeteccao.' });
+			}
+		}
 		const surto = new SurtoModel({
-			codigoSurto: codigoSurto,
-			codigoVirus: codigoVirus,
-			codigoZona: codigoZona,
-			dataDeteccao: dataDeteccao,
-			dataFim: dataFim ? new Date(dataFim) : null
+			codigoSurto,
+			codigoVirus,
+			codigoZona,
+			dataDeteccao: parsedDataDeteccao,
+			dataFim: parsedDataFim
 		});
+
 		await surto.save();
 		res.status(201).json({message: 'Surto criado!', surto: surto});
 	} catch (err) {
@@ -30,6 +44,31 @@ exports.createSurto = async function(req, res) {
 			res.status(500).json({ error: 'Erro ao salvar Surto', details: err.message});
 		}
 	}
+}
+
+function parseDateString(dateString) {
+	if (!dateString) 
+		return null;
+	const datePattern = /^\d{2}\/\d{2}\/\d{4}$/;
+	if (!datePattern.test(dateString)) {
+		return null;
+	}
+	const parts = dateString.split('/');
+	const day = parseInt(parts[0], 10);
+	const month = parseInt(parts[1], 10) - 1;
+	const year = parseInt(parts[2], 10);
+	if (year < 1900 || year > 2100) {
+		return null;
+	}
+	const date = new Date(year, month, day);
+	if (
+		date.getFullYear() === year &&
+		date.getMonth() === month &&
+		date.getDate() === day
+	) {
+		return date;
+	}
+	return null;
 }
 
 
