@@ -30,6 +30,10 @@ var zonaRouter = require('./routes/zonaRoutes');
 app.use('/api/paises', paisRouter);
 app.use('/api/zonas', zonaRouter);
 
+var SurtoRoutes = require('./routes/surtosRoute');
+app.use('/api/surtos/', SurtoRoutes);
+
+
 
 
 
