@@ -4,7 +4,7 @@ var SurtosModel = require('../models/surtosModel');
 var PaisModel = require('../models/paisModel');
 
 exports.createZone = async function (req, res) {
-	console.log('PUT /api/zonas/id/:id update zone - ' + JSON.stringify(req.bofy));
+	console.log('PUT /api/zonas/id/:id update zone - ' + JSON.stringify(req.body));
 	try {
 		const { nome, codigoZona } = req.body;
 		var Zona = new ZonaModel({
