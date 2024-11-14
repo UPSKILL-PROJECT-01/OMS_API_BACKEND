@@ -26,6 +26,7 @@ const paisSchema = new Schema({
 	nome: {
 		type: String,
 		required: [true, 'Um país deve ter uma nome'],
+		unique: true,
 		validate: {
 			validator: function (v) {
 				return /^[A-Za-z\s]+$/.test(v);
