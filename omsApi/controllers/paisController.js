@@ -48,7 +48,7 @@ exports.getById = async function (req, res) {
 		const id = req.params.id;
 		const pais = await PaisModel.findOne({ _id: id });
 		if (!pais) {
-			res.status(404).json({ message: 'País não encontrado' });
+			return res.status(404).json({ message: 'País não encontrado' });
 		}
 		res.status(200).json(pais);
 	} catch (err) {
@@ -62,7 +62,7 @@ exports.getByCode = async function (req, res) {
 		const code = req.params.codigoPais;
 		const pais = await PaisModel.findOne({ codigoPais: code });
 		if (!pais) {
-			res.status(404).json({ message: 'País não encontrado' });
+			return res.status(404).json({ message: 'País não encontrado' });
 		}
 		res.status(200).json(pais);
 	} catch (err) {
@@ -76,7 +76,7 @@ exports.getByZoneCode = async function (req, res) {
 		const code = req.params.codigoZona;
 		const pais = await PaisModel.findOne({ codigoZona: code });
 		if (!pais) {
-			res.status(404).json({ message: 'País não encontrado' });
+			return res.status(404).json({ message: 'País não encontrado' });
 		}
 		res.status(200).json(pais);
 	} catch (err) {
@@ -90,7 +90,7 @@ exports.getByName = async function (req, res) {
 		const code = req.params.nome;
 		const pais = await PaisModel.findOne({ nome: code });
 		if (!pais) {
-			res.status(404).json({ message: 'País não encontrado' });
+			return res.status(404).json({ message: 'País não encontrado' });
 		}
 		res.status(200).json(pais);
 	} catch (err) {
@@ -106,7 +106,7 @@ exports.updateCountry = async function (req, res) {
 		const id = req.params.id;
 		const pais = await PaisModel.findOne({ _id: id });
 		if (!pais) {
-			res.status(404).json({ message: 'País não encontrado' });
+			return res.status(404).json({ message: 'País não encontrado' });
 		}
 		pais.nome = nome;
 		pais.codigoPais = codigoPais;
@@ -135,7 +135,7 @@ exports.deleteCountry = async function (req, res) {
 		const id = req.params.id;
 		const pais = await PaisModel.deleteOne({ _id: id });
 		if (!pais) {
-			res.status(404).json({ message: 'País não encontrado' });
+			return res.status(404).json({ message: 'País não encontrado' });
 		}
 		res.status(200).json({ message: `País deletado.` });
 	} catch (err) {
