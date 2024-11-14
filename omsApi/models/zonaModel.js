@@ -30,7 +30,24 @@ const zonaSchema = new Schema({
 			},
 			message: props => `${props.value} não é um código de zona válido!`
 		}
-	},
+	}
+	// paises: {
+	// 	type: [{
+	// 		type: String,
+	// 		validate: {
+	// 			validator: function (v) {
+	// 				return /^[A-Z]{3}\d{2}$/.test(v);
+	// 			},
+	// 			message: props => `${props.value} não é um código de país válido!`
+	// 		}
+	// 	}],
+	// 	validate: {
+	// 		validator: function (v) {
+	// 			return Array.isArray(v) && new Set(v).size === v.length;
+	// 		},
+	// 		message: props => `A lista de países contém duplicatas!`
+	// 	}
+	// }
 })
 
 const Zona = mongoose.model('Zona', zonaSchema);
