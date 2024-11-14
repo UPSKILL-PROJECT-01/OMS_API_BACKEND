@@ -18,6 +18,6 @@ router.put('/id/:id', ZonaController.updateZone);
 
 
 // ===================== DELETE =====================
-router.delete('/id/:id', ZonaController.deleteZone);
+router.delete('/id/:id', ZonaController.deleteZone); 
 
 module.exports = router;
