@@ -46,65 +46,45 @@ const filterActiveRecomendacoes = (recomendacoes) => {
 	return recomendacoes.filter(recomendacao => {
 		const expirationDate = new Date(recomendacao.dataNota);
 		expirationDate.setDate(expirationDate.getDate() + recomendacao.validade);
-		console.log(`Recomendação: ${recomendacao.codigoRecomendacao}, Data Nota: ${recomendacao.dataNota}, Validade: ${recomendacao.validade}, Data Validade Calculada: ${expirationDate}`);
+		//console.log(`Recomendação: ${recomendacao.codigoRecomendacao}, Data Nota: ${recomendacao.dataNota}, Validade: ${recomendacao.validade}, Data Validade Calculada: ${expirationDate}`);
 		return currentDate <= expirationDate;
 	});
 };
 
-// exports.getRecomendacoesByPais = async function(req, res) {
-// 	console.log("GET:/api/paises/recomendacoes by codigoPais: " + req.params.codigoPais);
-// 	try {
-// 		const pais = await paisModel.findOne({ codigoPais: req.params.codigoPais });
-// 		console.log(`codigoPais: ${req.params.codigoPais}`); 
-// 		if (!pais) {
-// 			console.log(`codigoPais ${req.params.codigoPais} não existe.`);
-// 			return res.status(204).send();
-// 		}
-// 		const zona = pais.codigoZona;
-// 		console.log(`codigoZona: ${zona}`); 
-// 		const recomendacoes = await recomendacoesModel.find({ codigoZona: zona });
-// 		console.log(`Recomendações encontradas: ${recomendacoes.length}`); 
-// 		const activeRecomendacoes = filterActiveRecomendacoes(recomendacoes);
-// 		console.log(`Recomendações ativas encontradas: ${activeRecomendacoes.length}`); 
-// 		res.status(200).json(activeRecomendacoes);
-// 	} catch (err) {
-// 		res.status(500).json({ error: 'Erro ao procurar recomendações', details: err });
-// 	}
-// };
-
 exports.getRecomendacoesByPaisBySurto = async function(req, res) {
 	console.log("GET:/api/recomendacoes/paises/surtos/ by codigoPais: " + req.params.codigoPais);
 	try {
-		const surto = await surtoModel.findOne({ codigoSurto: req.params.codigoSurto });
-		console.log(`codigoSurto: ${req.params.codigoSurto}`); 
-		if (!surto) {
-			console.log(`codigoSurto ${req.params.codigoSurto} não existe.`);
-			return res.status(204).send();
-		}
-		
-		const zona1 = surto.codigoZona;
-		console.log(`codigoZona: ${zona1}`);
 		const pais = await paisModel.findOne({ codigoPais: req.params.codigoPais });
+		if (!pais) {
+			console.log(`codigoPais ${req.params.codigoPais} não existe.`);
+			return res.status(404).json({ error: 'O codigoPais nao corresponde a nenhum pais' });
+		}
 		console.log(`codigoPais: ${req.params.codigoPais}`);
 		const zona2 = pais.codigoZona;
 		console.log(`codigoZona: ${zona2}`);
 		
-		
-		
-		if (!pais) {
-			console.log(`codigoPais ${req.params.codigoPais} não existe.`);
-			return res.status(204).send();
+		const surto = await surtoModel.findOne({ codigoSurto: req.params.codigoSurto });
+		console.log(`codigoSurto: ${req.params.codigoSurto}`); 
+		if (!surto) {
+			console.log(`codigoSurto ${req.params.codigoSurto} não existe.`);
+			return res.status(404).json({ error: 'O codigoSurto nao corresponde a nenhum surto' });
 		}
-		const recomendacoes = await recomendacoesModel.find({ codigoSurto: surto });
-		console.log(`Recomendações encontradas: ${recomendacoes.length}`); 
-		const activeRecomendacoes = filterActiveRecomendacoes(recomendacoes);
-		console.log(`Recomendações ativas encontradas: ${activeRecomendacoes.length}`); 
-		res.status(200).json(activeRecomendacoes);
+		const zona1 = surto.codigoZona;
+		console.log(`codigoZona: ${zona1}`);
+
+		if (zona1 === zona2) {
+			const recomendacoes = await recomendacoesModel.find({ codigoSurto: surto.codigoSurto });
+			console.log(`Recomendações encontradas: ${recomendacoes.length}`); 
+			const activeRecomendacoes = filterActiveRecomendacoes(recomendacoes);
+			console.log(`Recomendações ativas encontradas: ${activeRecomendacoes.length}`); 
+			res.status(200).json(activeRecomendacoes);
+		} else {
+			res.status(404).json({ error: 'O Pais nao corresponde à zona do surto' });
+		}
 	} catch (err) {
 		res.status(500).json({ error: 'Erro ao procurar recomendações', details: err });
 	}
 };
-
 
 exports.updateRecomendacoes = async function(req, res) {
 	const { codigoRecomendacoes } = req.params;
@@ -132,6 +112,30 @@ exports.updateRecomendacoes = async function(req, res) {
 	}
 };
 
+
+
+
+
+// exports.getRecomendacoesByPais = async function(req, res) {
+// 	console.log("GET:/api/paises/recomendacoes by codigoPais: " + req.params.codigoPais);
+// 	try {
+// 		const pais = await paisModel.findOne({ codigoPais: req.params.codigoPais });
+// 		console.log(`codigoPais: ${req.params.codigoPais}`); 
+// 		if (!pais) {
+// 			console.log(`codigoPais ${req.params.codigoPais} não existe.`);
+// 			return res.status(204).send();
+// 		}
+// 		const zona = pais.codigoZona;
+// 		console.log(`codigoZona: ${zona}`); 
+// 		const recomendacoes = await recomendacoesModel.find({ codigoZona: zona });
+// 		console.log(`Recomendações encontradas: ${recomendacoes.length}`); 
+// 		const activeRecomendacoes = filterActiveRecomendacoes(recomendacoes);
+// 		console.log(`Recomendações ativas encontradas: ${activeRecomendacoes.length}`); 
+// 		res.status(200).json(activeRecomendacoes);
+// 	} catch (err) {
+// 		res.status(500).json({ error: 'Erro ao procurar recomendações', details: err });
+// 	}
+// };
 
 
 
