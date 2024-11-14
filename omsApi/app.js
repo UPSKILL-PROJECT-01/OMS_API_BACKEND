@@ -19,11 +19,19 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 // API routes
-var virusRoutes = require('./routes/virus'); //rotas
+var virusRoutes = require('./routes/virusRoutes'); //rotas
 app.use('/api/virus', virusRoutes); //endpoint
 
-var recomendacoesRoutes = require('./routes/recomendacoes'); //rotas
+var recomendacoesRoutes = require('./routes/recomendacoesRoutes'); //rotas
 app.use('/api/recomendacoes', recomendacoesRoutes); //endpoint
+
+var paisRouter = require('./routes/paisRoutes');
+var zonaRouter = require('./routes/zonaRoutes');
+app.use('/api/paises', paisRouter);
+app.use('/api/zonas', zonaRouter);
+
+
+
 
 var port = 8080;
 app.listen(port);
