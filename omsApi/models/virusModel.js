@@ -18,6 +18,7 @@ const VirusSchema = new Schema({
 	},
 	nomeVirus: {
 		type: String,
+		unique: true,
 		required: true
 	}
 }, { collection: 'virus' });
