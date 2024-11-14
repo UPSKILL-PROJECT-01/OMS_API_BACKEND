@@ -7,7 +7,7 @@ Funcionário autenticado seleciona "Gestão de Vírus e Surtos" no sistema. O Fu
 
 ### UC4 - Editar vírus, surtos e recomendações
 
-Para editar, o Funcionário escolhe um vírus, surto ou recomendação, altera os dados e confirma. O sistema regista as mudanças e informa o sucesso da operação. Para eliminar, o Funcionário seleciona um vírus, surto ou recomendação, confirma a ação. O sistema remove o item e informa o sucesso da operação.
+Para editar, o Funcionário escolhe um vírus, surto ou recomendação, altera os dados e confirma. O sistema regista as mudanças e informa o sucesso da operação.Para inativar, o Funcionário seleciona um vírus, surto ou recomendação, confirma a ação. O sistema inativa o item e informa o sucesso da operação.
 
 
 ## Admin
