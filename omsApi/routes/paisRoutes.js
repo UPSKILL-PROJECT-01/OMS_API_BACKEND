@@ -23,8 +23,6 @@ router.put('/id/:id', PaisController.updateCountry);
 router.delete('/id/:id', PaisController.deleteCountry);
 
 
-// ====================== FRED =======================
-const recomendacoesController = require('../controllers/recomendacoesControllers');
-router.get('/:codigoPais/recomendacoes', recomendacoesController.getRecomendacoesByPais);
+
 
 module.exports = router;

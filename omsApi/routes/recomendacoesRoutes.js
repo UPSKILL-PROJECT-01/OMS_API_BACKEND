@@ -6,9 +6,15 @@ const recomendacoesController = require('../controllers/recomendacoesControllers
 router.post('/', recomendacoesController.createRecomendacoes);
 router.get('/', recomendacoesController.getAllRecomendacoes); // PARA TESTE
 
+router.get('/:codigoPais/codigoSurto', recomendacoesController.getRecomendacoesByPaisBySurto);
+
 router.put('/:codigoRecomendacoes', recomendacoesController.updateRecomendacoes);
 
 // router.get('/:codigoPais/:recomendacoes', paiseController.getByCode, recomendacoesController.getAllRecomendacoes); // PARA TESTE
+
+
+
+
 
 
 module.exports = router;

@@ -2,14 +2,14 @@
 
 const recomendacoesModel = require('../models/recomendacoesModels');
 const paisModel = require('../models/paisModel');
-const zonaModel = require('../models/zonaModel');
+const surtoModel = require('../models/surtosModel');
 
 exports.createRecomendacoes = async(req, res) => {
-	const { codigoRecomendacao, codigoZona, dataNota, validade } = req.body;
+	const { codigoRecomendacao, codigoSurto, dataNota, validade } = req.body;
 	try {
 		const recomendacao = new recomendacoesModel({
 			codigoRecomendacao,
-			codigoZona,
+			codigoSurto,
 			dataNota,
 			validade
 		});
@@ -51,18 +51,51 @@ const filterActiveRecomendacoes = (recomendacoes) => {
 	});
 };
 
-exports.getRecomendacoesByPais = async function(req, res) {
-	console.log("GET:/api/paises/recomendacoes by codigoPais: " + req.params.codigoPais);
+// exports.getRecomendacoesByPais = async function(req, res) {
+// 	console.log("GET:/api/paises/recomendacoes by codigoPais: " + req.params.codigoPais);
+// 	try {
+// 		const pais = await paisModel.findOne({ codigoPais: req.params.codigoPais });
+// 		console.log(`codigoPais: ${req.params.codigoPais}`); 
+// 		if (!pais) {
+// 			console.log(`codigoPais ${req.params.codigoPais} não existe.`);
+// 			return res.status(204).send();
+// 		}
+// 		const zona = pais.codigoZona;
+// 		console.log(`codigoZona: ${zona}`); 
+// 		const recomendacoes = await recomendacoesModel.find({ codigoZona: zona });
+// 		console.log(`Recomendações encontradas: ${recomendacoes.length}`); 
+// 		const activeRecomendacoes = filterActiveRecomendacoes(recomendacoes);
+// 		console.log(`Recomendações ativas encontradas: ${activeRecomendacoes.length}`); 
+// 		res.status(200).json(activeRecomendacoes);
+// 	} catch (err) {
+// 		res.status(500).json({ error: 'Erro ao procurar recomendações', details: err });
+// 	}
+// };
+
+exports.getRecomendacoesByPaisBySurto = async function(req, res) {
+	console.log("GET:/api/recomendacoes/paises/surtos/ by codigoPais: " + req.params.codigoPais);
 	try {
+		const surto = await surtoModel.findOne({ codigoSurto: req.params.codigoSurto });
+		console.log(`codigoSurto: ${req.params.codigoSurto}`); 
+		if (!surto) {
+			console.log(`codigoSurto ${req.params.codigoSurto} não existe.`);
+			return res.status(204).send();
+		}
+		
+		const zona1 = surto.codigoZona;
+		console.log(`codigoZona: ${zona1}`);
 		const pais = await paisModel.findOne({ codigoPais: req.params.codigoPais });
-		console.log(`codigoPais: ${req.params.codigoPais}`); 
+		console.log(`codigoPais: ${req.params.codigoPais}`);
+		const zona2 = pais.codigoZona;
+		console.log(`codigoZona: ${zona2}`);
+		
+		
+		
 		if (!pais) {
 			console.log(`codigoPais ${req.params.codigoPais} não existe.`);
 			return res.status(204).send();
 		}
-		const zona = pais.codigoZona;
-		console.log(`codigoZona: ${zona}`); 
-		const recomendacoes = await recomendacoesModel.find({ codigoZona: zona });
+		const recomendacoes = await recomendacoesModel.find({ codigoSurto: surto });
 		console.log(`Recomendações encontradas: ${recomendacoes.length}`); 
 		const activeRecomendacoes = filterActiveRecomendacoes(recomendacoes);
 		console.log(`Recomendações ativas encontradas: ${activeRecomendacoes.length}`); 
@@ -75,11 +108,11 @@ exports.getRecomendacoesByPais = async function(req, res) {
 
 exports.updateRecomendacoes = async function(req, res) {
 	const { codigoRecomendacoes } = req.params;
-	const { codigoZona, dataNota, validade } = req.body;
+	const { codigoSurto, dataNota, validade } = req.body;
 	try {
 		const recomendacao = await recomendacoesModel.findOneAndUpdate(
 			{ codigoRecomendacao: codigoRecomendacoes },
-			{ codigoZona, dataNota, validade },
+			{ codigoSurto, dataNota, validade },
 			{ new: true, runValidators: true }
 		);
 		if (!recomendacao) {

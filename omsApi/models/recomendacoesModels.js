@@ -3,7 +3,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const zonaModel= require('./zonaModel');
+const surtoModel = require('./surtosModel');
 
 const RecomendacoesSchema = new Schema({
 	codigoRecomendacao: {
@@ -14,16 +14,18 @@ const RecomendacoesSchema = new Schema({
 		minlength: 7,
 		maxlength: 7
 	},
-	codigoZona: {
+	codigoSurto: {
 		type: String,
 		required: true,
 		validate: {
-			validator: async function(value) {
-				const zona = await zonaModel.findOne({ codigoZona: value });
-				return !!zona;
-			},
-			message: 'Código da zona não foi encontrado'
-		}
+            validator: async function(value) {
+                console.log(`Validating codigoSurto: ${value}`);
+                const surto = await surtoModel.findOne({ codigoSurto: value });
+                console.log(`Surto found: ${surto}`);
+                return !!surto;
+            },
+            message: 'Código da surto não foi encontrado'
+        }
 	},
 	dataNota: {
 		type: Date,
@@ -39,7 +41,8 @@ const RecomendacoesSchema = new Schema({
 		type: Number,
 		default: 30 
 	}
-
+}, { collection: 'recomendacoes'});
+	
 	// dataNota: {
 	//     type: Date,
 	//     required: true,
@@ -64,7 +67,6 @@ const RecomendacoesSchema = new Schema({
 	// 	type: Date,
 	// }
 
-}, { collection: 'recomendacoes'});
 
 // Method to check if the recommendation is valid
 // RecomendacoesSchema.pre('save', function(next) {
