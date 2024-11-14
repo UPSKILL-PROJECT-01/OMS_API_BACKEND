@@ -1,6 +1,6 @@
 var ZonaModel = require('../models/zonaModel');
 var SurtosModel = require('../models/surtosModel');
-var RecomendacoesModel = require('../models/recomendacoesModel');
+// var RecomendacoesModel = require('../models/recomendacoesModel');
 var PaisModel = require('../models/paisModel');
 
 exports.createZone = async function (req, res) {
@@ -88,22 +88,23 @@ exports.deleteZone = async function (req, res) {
 	console.log('DELETE /api/zonas/id/:id Deletar zona - ' + req.params.id);
 	try {
 		const id = req.params.id;
-		const zona = await ZonaModel.deleteOne({ _id: id });
+		const zona = await ZonaModel.findOne({ _id: id });
 		if (!zona) {
-			res.status(404).json({ message: 'zona não encontrada' });
+			return res.status(404).json({ message: 'zona não encontrada' });
 		}
-		const pais = await PaisModel.deleteOne({ codigoZona: zona.codigoZona });
-		if (!pais) {
-			res.status(403).json({ message: 'Existem um ou mais países associados a esta zona', surtos: Surtos });
+		const pais = await PaisModel.findOne({ codigoZona: zona.codigoZona });
+		if (pais) {
+			return res.status(403).json({ message: 'Existem um ou mais países associados a esta zona', surtos: Surtos });
 		}
 		const Surtos = await SurtosModel.find({ codigoZona: zona.codigoZona });
-		if (!Surtos) {
-			res.status(403).json({ message: 'Existem um ou mais surtos associados a esta zona', surtos: Surtos });
+		if (Surtos) {
+			return res.status(403).json({ message: 'Existem um ou mais surtos associados a esta zona', surtos: Surtos });
 		}
-		const Recomendacoes = await RecomendacoesModel.find({ codigoZona: zona.codigoZona });
-		if (!Recomendacoes) {
-			res.status(403).json({ message: 'Existem uma ou mais recomendações associadas a esta zona', surtos: Surtos });
-		}
+		// const Recomendacoes = await RecomendacoesModel.find({ codigoZona: zona.codigoZona });
+		// if (Recomendacoes) {
+		// 	return res.status(403).json({ message: 'Existem uma ou mais recomendações associadas a esta zona', surtos: Surtos });
+		// }
+		await ZonaModel.deleteOne({ _id: id });
 		res.status(200).json({ message: `zona deletada.` });
 	} catch (err) {
 		if (err.name === 'ValidationError') {

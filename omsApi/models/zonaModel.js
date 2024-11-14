@@ -14,6 +14,7 @@ const zonaSchema = new Schema({
 	nome: {
 		type: String,
 		required: [true, 'Uma zona deve ter uma nome'],
+		unique: true,
 		validate: {
 			validator: function (v) {
 				return /^[A-Za-z\s]+$/.test(v);
