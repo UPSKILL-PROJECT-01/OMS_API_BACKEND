@@ -122,13 +122,19 @@ exports.updateFinalDateSurto = async function(req, res) {
 	try {
 		const { dataFim } = req.body;
 		const { cp, cv } = req.params;
+
+		const parsedDataFim = parseDateString(dataFim);
+		if (!parsedDataFim) {
+			return res.status(400).json({ error: 'dataFim não é válida ou está no formato incorreto (deve ser dd/MM/yyyy).' });
+		}
+
 		const updatedSurto = await SurtoModel.findOneAndUpdate(
 			{ 
 				codigoZona: cp, 
 				codigoSurto: cv,
 				$or: [{ dataFim: { $exists: false } }, { dataFim: null }]
 			},
-			{ dataFim: new Date(dataFim) },
+			{ dataFim: parsedDataFim },
 			{ new: true }
 		);
 		if (!updatedSurto) {

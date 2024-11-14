@@ -5,6 +5,14 @@ const SurtosController = require('../controllers/surtosController');
 // ===================== POST =====================
 router.post('/', SurtosController.createSurto);
 
+// ===================== GET =====================
+router.get('/', SurtosController.getAllSurtos);
+// router.get('/id/:id', SurtosController.getSurtoById);
+// router.get('/codigoSurto/:codigoSurto', SurtosController.getSurtoByCodigoSurto);
+// router.get('/ativos', SurtosController.getAllSurtosAtivos);
+// router.get('/ocorridos', SurtosController.getAllSurtosOcorridos);
+// router.get('/virus/:cv', SurtosController.getAllSurtosByVirus);
+
 // ===================== PUT =====================
 router.put('/:cp/:cv', SurtosController.updateFinalDateSurto);
 
@@ -23,8 +31,8 @@ module.exports = router;
 // GET: /api/surtos/ativos
 // GET: /api/surtos/ocorridos
 // GET: /api/surtos/virus/:cv/
-// GET: /api/surtos/virus/:cv/ocorridos
-// GET: /api/surtos/virus/:cv/ativos
+
+// ============================== BENE
 // GET  /api/surtos/zona/:cz/
 // GET  /api/surtos/zona/:cz/ativos
 // GET  /api/surtos/zona/:cz/ocorridos
