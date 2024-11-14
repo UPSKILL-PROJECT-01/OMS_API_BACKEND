@@ -54,3 +54,43 @@ exports.getRecomendacaoStatus = async function(req, res) {
         res.status(500).json({ error: 'Erro ao recuperar a recomendação', details: err.message });
     }
 };
+
+
+// teste
+
+exports.getRecomendacoesByPais = async function(req, res) {
+    const { codigoPais } = req.params;
+    try {
+        const recomendacoes = await recomendacoesModel.find({ codigoPais });
+        res.status(200).json(recomendacoes);
+    } catch (err) {
+        res.status(500).json({ error: 'Erro ao recuperar recomendações', details: err.message });
+    }
+};
+
+
+exports.updateRecomendacoes = async function(req, res) {
+    const { codigoRecomendacoes } = req.params;
+    const { codigoZona, dataNota, validade } = req.body;
+    try {
+        const recomendacao = await recomendacoesModel.findOneAndUpdate(
+            { codigoRecomendacao: codigoRecomendacoes },
+            { codigoZona, dataNota, validade },
+            { new: true, runValidators: true }
+        );
+        if (!recomendacao) {
+            return res.status(404).json({ error: 'Recomendação não encontrada' });
+        }
+        res.status(200).json(recomendacao);
+    } catch (err) {
+        if (err.name === 'ValidationError') {
+            let errorMessage = 'Erro de validação: ';
+            for (let field in err.errors) {
+                errorMessage += `${err.errors[field].message} `;
+            }
+            res.status(400).json({ error: errorMessage.trim() });
+        } else {
+            res.status(500).json({ error: 'Erro ao atualizar a recomendação', details: err.message });
+        }
+    }
+};
