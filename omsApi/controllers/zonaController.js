@@ -33,7 +33,7 @@ exports.getById = async function (req, res) {
 	try {
 		const zona = await ZonaModel.findOne({ _id: req.params.id });
 		if (!zona) {
-			return res.status(204).json({ message: 'Zona não encontrada' });
+			return res.status(404).json({ message: 'Zona não encontrada' });
 		}
 		res.status(200).json(zona);
 	} catch (err) {
@@ -46,7 +46,7 @@ exports.getByName = async function (req, res) {
 	try {
 		const zona = await ZonaModel.findOne({ nome: req.params.nome });
 		if (!zona) {
-			return res.status(204).json({ message: 'Zona não encontrada' });
+			return res.status(404).json({ message: 'Zona não encontrada' });
 		}
 		res.status(200).json(zona);
 	} catch (err) {
@@ -59,7 +59,7 @@ exports.getByCode = async function (req, res) {
 	try {
 		const zona = await ZonaModel.findOne({ codigoZona: req.params.codigoZona });
 		if (!zona) {
-			return res.status(204).json({ message: 'Zona não encontrada' });
+			return res.status(404).json({ message: 'Zona não encontrada' });
 		}
 		res.status(200).json(zona);
 	} catch (err) {
@@ -73,7 +73,7 @@ exports.updateZone = async function (req, res) {
 		const { nome, codigoZona } = req.body;
 		const Zona = await ZonaModel.findOne({ _id: req.params.id });
 		if (!Zona) {
-			return res.status(204).json({ message: 'Zona não encontrada' });
+			return res.status(404).json({ message: 'Zona não encontrada' });
 		}
 		Zona.nome = nome;
 		Zona.codigoZona = codigoZona;
@@ -90,7 +90,7 @@ exports.deleteZone = async function (req, res) {
 		const id = req.params.id;
 		const zona = await ZonaModel.deleteOne({ _id: id });
 		if (!zona) {
-			res.status(204).json({ message: 'zona não encontrada' });
+			res.status(404).json({ message: 'zona não encontrada' });
 		}
 		const pais = await PaisModel.deleteOne({ codigoZona: zona.codigoZona });
 		if (!pais) {
