@@ -2,7 +2,7 @@ const SurtoModel = require('../models/surtosModel');
 const ZonaModel = require('../models/zonaModel');
 const PaisModel = require('../models/paisModel');
 
-exports.createSurto = async function(req, res) {
+exports.createSurto = async function (req, res) {
 	console.log("POST: /api/surtos - " + JSON.stringify(req.body));
 	const { codigoSurto, codigoVirus, codigoZona, dataDeteccao, dataFim } = req.body;
 
@@ -30,24 +30,24 @@ exports.createSurto = async function(req, res) {
 		});
 
 		await surto.save();
-		res.status(201).json({message: 'Surto criado!', surto: surto});
+		res.status(201).json({ message: 'Surto criado!', surto: surto });
 	} catch (err) {
 		if (err.name === 'ValidationError') {
 			let errorMessage = 'Erro de Validação: ';
 			for (let field in err.errors) {
 				errorMessage += `${err.errors[field].message}`;
 			}
-			res.status(400).json({error: errorMessage.trim()});
+			res.status(400).json({ error: errorMessage.trim() });
 		} else if (err.code === 11000) {
-			res.status(400).json({ error: 'Código de surto duplicado. Por favor use valores únicos.'});
+			res.status(400).json({ error: 'Código de surto duplicado. Por favor use valores únicos.' });
 		} else {
-			res.status(500).json({ error: 'Erro ao salvar Surto', details: err.message});
+			res.status(500).json({ error: 'Erro ao salvar Surto', details: err.message });
 		}
 	}
 }
 
 function parseDateString(dateString) {
-	if (!dateString) 
+	if (!dateString)
 		return null;
 	const datePattern = /^\d{2}\/\d{2}\/\d{4}$/;
 	if (!datePattern.test(dateString)) {
@@ -71,21 +71,21 @@ function parseDateString(dateString) {
 	return null;
 }
 
-exports.getSurtosByPais = async function(req, res) {
+exports.getSurtosByPais = async function (req, res) {
 	console.log("GET:/api/paises/surtos by codigoPais: " + req.params.cp);
 	try {
-		const pais = await PaisModel.findOne({codigoPais: req.params.cp});
+		const pais = await PaisModel.findOne({ codigoPais: req.params.cp });
 		if (!pais)
-			return res.status(404).json({message: `codigoPais ${req.params.cp} não existe.`});
+			return res.status(404).json({ message: `codigoPais ${req.params.cp} não existe.` });
 		const zona = pais.codigoZona;
-		const surtos = await SurtoModel.find({codigoZona: zona});
+		const surtos = await SurtoModel.find({ codigoZona: zona });
 		res.status(200).json(surtos);
 	} catch (err) {
-		res.status(500).json({error: 'Erro ao buscar surtos', details: err});
+		res.status(500).json({ error: 'Erro ao buscar surtos', details: err });
 	}
 };
 
-exports.getSurtosAtivosByVirus = async function(req, res) {
+exports.getSurtosAtivosByVirus = async function (req, res) {
 	console.log("GET:api/virus/ Surtos ativos por virus: " + req.params.cv);
 	try {
 		const virus = await SurtoModel.find({
@@ -94,11 +94,11 @@ exports.getSurtosAtivosByVirus = async function(req, res) {
 		});
 		res.status(200).json(virus);
 	} catch (err) {
-		res.status(500).json({error: 'Erro ao buscar surtos ativos', details: err});
+		res.status(500).json({ error: 'Erro ao buscar surtos ativos', details: err });
 	}
 };
 
-exports.getSurtosOcorridosByVirus = async function(req, res) {
+exports.getSurtosOcorridosByVirus = async function (req, res) {
 	console.log("GET:api/virus/ Surtos ativos por virus: " + req.params.cv);
 	try {
 		const virus = await SurtoModel.find({
@@ -107,11 +107,11 @@ exports.getSurtosOcorridosByVirus = async function(req, res) {
 		});
 		res.status(200).json(virus);
 	} catch (err) {
-		res.status(500).json({error: 'Erro ao buscar surtos ativos', details: err});
+		res.status(500).json({ error: 'Erro ao buscar surtos ativos', details: err });
 	}
 };
- 
-exports.updateFinalDateSurto = async function(req, res) {
+
+exports.updateFinalDateSurto = async function (req, res) {
 	try {
 		const { dataFim } = req.body;
 		const { cp, cv } = req.params;
@@ -128,3 +128,73 @@ exports.updateFinalDateSurto = async function(req, res) {
 		res.status(500).json({ error: 'Erro ao atualizar data de fim', details: err.message });
 	}
 };
+
+exports.allSurtosByZone = async function (req, res) {
+	console.log("GET:api/virus//virus/zona/:cz Todos os surtos para a zona: " + req.params.cz);
+	const codigoZona = req.params.cz;
+	try {
+		const surtos = await SurtoModel.find({ codigoZona: codigoZona });
+		if (!surtos) {
+			return res.status(404).json({ message: `Não existem surtos registados para a zona ${codigoZona}.` })
+		}
+		res.status(200).json(surtos);
+	} catch (err) {
+		res.status(500).json({ error: `Erro ao buscar surtos para zona ${codigoZona}`, details: err.message });
+	}
+}
+
+exports.SurtosAtivosByZone = async function (req, res) {
+	console.log("GET:api/virus//virus/zona/:cz/ativos Surtos ATIVOS para a zona: " + req.params.cz);
+	const codigoZona = req.params.cz;
+	try {
+		const surtos = await SurtoModel.find({ codigoZona: codigoZona, dataFim: null });
+		if (!surtos) {
+			return res.status(404).json({ message: `Não existem surtos ATIVOS registados para a zona ${codigoZona}.` })
+		}
+		res.status(200).json(surtos);
+	} catch (err) {
+		res.status(500).json({ error: `Erro ao buscar surtos ATIVOS para zona ${codigoZona}`, details: err.message });
+	}
+}
+
+exports.SurtosOcorridosByZone = async function (req, res) {
+	console.log("GET:api/virus//virus/zona/:cz/ativos Surtos OCORRIDOS para a zona: " + req.params.cz);
+	const codigoZona = req.params.cz;
+	try {
+		const surtos = await SurtoModel.find({ codigoZona: codigoZona, dataFim: { $ne: null } });
+		if (!surtos) {
+			return res.status(404).json({ message: `Não existem surtos OCORRIDOS registados para a zona ${codigoZona}.` })
+		}
+		res.status(200).json(surtos);
+	} catch (err) {
+		res.status(500).json({ error: `Erro ao buscar surtos OCORRIDOS para zona ${codigoZona}`, details: err.message });
+	}
+}
+
+exports.SurtosAtivosByPais = async function (req, res) {
+	console.log("GET:api/virus//virus/zona/:cp/ativos Surtos ATIVOS para o país: " + req.params.cp);
+	const codigoPais = req.params.cp;
+	try {
+		const surtos = await SurtoModel.find({ codigoPais: codigoPais, dataFim: null });
+		if (!surtos) {
+			return res.status(404).json({ message: `Não existem surtos ATIVOS registados para o país ${codigoPais}.` })
+		}
+		res.status(200).json(surtos);
+	} catch (err) {
+		res.status(500).json({ error: `Erro ao buscar surtos ATIVOS paro país ${codigoPais}`, details: err.message });
+	}
+}
+
+exports.SurtosOcorridosByPais = async function (req, res) {
+	console.log("GET:api/virus//virus/zona/:cp/ativos Surtos OCORRIDOS para o país: " + req.params.cp);
+	const codigoPais = req.params.cp;
+	try {
+		const surtos = await SurtoModel.find({ codigoPais: codigoPais, dataFim: { $ne: null } });
+		if (!surtos) {
+			return res.status(404).json({ message: `Não existem surtos OCORRIDOS registados para o país ${codigoPais}.` })
+		}
+		res.status(200).json(surtos);
+	} catch (err) {
+		res.status(500).json({ error: `Erro ao buscar surtos OCORRIDOS paro país ${codigoPais}`, details: err.message });
+	}
+}
