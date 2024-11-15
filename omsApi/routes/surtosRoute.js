@@ -24,18 +24,27 @@ router.get('/virus/:cv/surtos', SurtosController.getSurtosOcorridosByVirus);
 
 module.exports = router;
 
-// GETTERS: 
+// =============================================== LEILA ->
+//GETTERS: 
 // GET  /api/surtos/
 // GET  /api/surtos/id/:id
 // GET  /api/surtos/codigoSurto/:cs
 // GET: /api/surtos/ativos
 // GET: /api/surtos/ocorridos
 // GET: /api/surtos/virus/:cv/
+// GET: /api/surtos/virus/:cv/ocorridos
+// GET: /api/surtos/virus/:cv/ativos
 
-// ============================== BENE
+// =============================================== BENE ->
 // GET  /api/surtos/zona/:cz/
+router.get('/virus/zona/:cz', SurtosController.allSurtosByZone);
 // GET  /api/surtos/zona/:cz/ativos
+router.get('/virus/zona/:cz/ativos', SurtosController.SurtosAtivosByZone);
 // GET  /api/surtos/zona/:cz/ocorridos
+router.get('/virus/zona/:cz/ocorridos', SurtosController.SurtosOcorridosByZone);
 // GET: /api/surtos/pais/:cp/ativos
+router.get('/virus/zona/:cp/ativos', SurtosController.SurtosAtivosByPais);
 // GET: /api/surtos/pais/:cp/ocorridos
 
+
+router.get('/virus/zona/:cp/ocorridos', SurtosController.SurtosOcorridosByPais);

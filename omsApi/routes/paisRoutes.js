@@ -22,4 +22,7 @@ router.put('/id/:id', PaisController.updateCountry);
 // ====================== DELETE ======================
 router.delete('/id/:id', PaisController.deleteCountry);
 
+
+
+
 module.exports = router;

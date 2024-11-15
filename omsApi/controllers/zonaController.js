@@ -1,6 +1,6 @@
 var ZonaModel = require('../models/zonaModel');
 var SurtosModel = require('../models/surtosModel');
-// var RecomendacoesModel = require('../models/recomendacoesModel');
+var RecomendacoesModel = require('../models/recomendacoesModels');
 var PaisModel = require('../models/paisModel');
 
 exports.createZone = async function (req, res) {

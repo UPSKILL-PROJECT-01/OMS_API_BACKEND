@@ -1,0 +1,26 @@
+
+==> virus
+
+POST: /api/virus/
+>> Criar um vírus
+
+
+
+==> recomendacoes
+
+POST: /api/recomendacoes/ 
+>> Criar uma nota de recomendação
+
+PUT: /api/recomendacoes/cr4 
+>> Editar a nota de recomendação
+
+GET: /api/paises/cp1 /cs2 /recomendacoes 
+>> Obter as recomendações válidas para o país e surto
+referidos
+
+
+
+1 Código do país
+2 Código do surto
+3 Código do vírus
+4 Código da recomendação
