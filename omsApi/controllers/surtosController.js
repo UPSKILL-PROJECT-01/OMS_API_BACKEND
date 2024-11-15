@@ -7,6 +7,14 @@ exports.createSurto = async function (req, res) {
 	const { codigoSurto, codigoVirus, codigoZona, dataDeteccao, dataFim } = req.body;
 
 	try {
+		const surtoExistente = await SurtoModel.findOne({
+			codigoVirus: codigoVirus,
+			codigoZona: codigoZona,
+			$or: [{ dataFim: { $exists: false } }, { dataFim: null }]
+		});
+		if (surtoExistente) {
+			return res.status(400).json({ error: 'Já existe um surto ativo para esse vírus nesta zona.' });
+		}
 		const parsedDataDeteccao = parseDateString(dataDeteccao);
 		if (!parsedDataDeteccao) {
 			return res.status(400).json({ error: 'dataDeteccao não é válida ou está no formato incorreto (deve ser dd/MM/yyyy).' });
@@ -28,7 +36,6 @@ exports.createSurto = async function (req, res) {
 			dataDeteccao: parsedDataDeteccao,
 			dataFim: parsedDataFim
 		});
-
 		await surto.save();
 		res.status(201).json({ message: 'Surto criado!', surto: surto });
 	} catch (err) {
@@ -115,13 +122,23 @@ exports.updateFinalDateSurto = async function (req, res) {
 	try {
 		const { dataFim } = req.body;
 		const { cp, cv } = req.params;
+
+		const parsedDataFim = parseDateString(dataFim);
+		if (!parsedDataFim) {
+			return res.status(400).json({ error: 'dataFim não é válida ou está no formato incorreto (deve ser dd/MM/yyyy).' });
+		}
+
 		const updatedSurto = await SurtoModel.findOneAndUpdate(
-			{ codigoZona: cp, codigoSurto: cv },
-			{ dataFim: new Date(dataFim) },
+			{ 
+				codigoZona: cp, 
+				codigoSurto: cv,
+				$or: [{ dataFim: { $exists: false } }, { dataFim: null }]
+			},
+			{ dataFim: parsedDataFim },
 			{ new: true }
 		);
 		if (!updatedSurto) {
-			return res.status(404).json({ error: 'Surto não encontrado' });
+			return res.status(404).json({ error: 'Surto não encontrado ou já finalizado' });
 		}
 		res.status(200).json({ message: 'Data de fim atualizada', surto: updatedSurto });
 	} catch (err) {
