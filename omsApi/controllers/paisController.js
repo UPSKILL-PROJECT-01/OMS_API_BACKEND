@@ -33,7 +33,7 @@ exports.createCountry = async function (req, res) {
 }
 
 exports.getAll = async function (req, res) {
-	console.log('GET /api/pises get All');
+	console.log('GET /api/paises get All');
 	try {
 		const paises = await PaisModel.find();
 		res.status(200).json(paises);
@@ -43,7 +43,7 @@ exports.getAll = async function (req, res) {
 }
 
 exports.getById = async function (req, res) {
-	console.log('GET /api/pises/id/:id get by id: ' + req.params.id);
+	console.log('GET /api/paises/id/:id get by id: ' + req.params.id);
 	try {
 		const id = req.params.id;
 		const pais = await PaisModel.findOne({ _id: id });
@@ -56,8 +56,25 @@ exports.getById = async function (req, res) {
 	}
 }
 
+// //fred
+// exports.getByCode = async function(req, res, next) {
+//     console.log('GET /api/paises/codigoPais/:codigoPais get by codigoPais: ' + req.params.codigoPais);
+//     const { codigoPais } = req.params;
+//     try {
+//         const pais = await PaisModel.findOne({ codigoPais });
+//         if (!pais) {
+//             return res.status(404).json({ error: 'País não encontrado' });
+//         }
+//         req.pais = pais;
+//         next();
+//     } catch (err) {
+//         res.status(500).json({ error: 'Erro ao recuperar o país', details: err.message });
+//     }
+// };
+
+
 exports.getByCode = async function (req, res) {
-	console.log('GET /api/pises/codigoPais/:codigoPais get by codigoPais: ' + req.params.codigoPais);
+	console.log('GET /api/paises/codigoPais/:codigoPais get by codigoPais: ' + req.params.codigoPais);
 	try {
 		const code = req.params.codigoPais;
 		const pais = await PaisModel.findOne({ codigoPais: code });
@@ -71,7 +88,7 @@ exports.getByCode = async function (req, res) {
 }
 
 exports.getByZoneCode = async function (req, res) {
-	console.log('GET /api/pises/codigoZona/:codigoZona get by codigoZona: ' + req.params.codigoZona);
+	console.log('GET /api/paises/codigoZona/:codigoZona get by codigoZona: ' + req.params.codigoZona);
 	try {
 		const code = req.params.codigoZona;
 		const pais = await PaisModel.findOne({ codigoZona: code });
@@ -85,7 +102,7 @@ exports.getByZoneCode = async function (req, res) {
 }
 
 exports.getByName = async function (req, res) {
-	console.log('GET /api/pises/nome/:nome get by Name: ' + req.params.nome);
+	console.log('GET /api/paises/nome/:nome get by Name: ' + req.params.nome);
 	try {
 		const code = req.params.nome;
 		const pais = await PaisModel.findOne({ nome: code });
