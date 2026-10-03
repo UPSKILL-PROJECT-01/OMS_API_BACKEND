@@ -2,12 +2,14 @@ var express = require('express');
 var router = express.Router();
 const recomendacoesController = require('../controllers/recomendacoesControllers');
 
-
+// ====================== POST ======================
 router.post('/', recomendacoesController.createRecomendacoes);
-router.get('/', recomendacoesController.getAllRecomendacoes); // PARA TESTE
 
+// ====================== GET ======================
+router.get('/', recomendacoesController.getAllRecomendacoes); // PARA TESTE
 router.get('/:codigoPais/:codigoSurto', recomendacoesController.getRecomendacoesByPaisBySurto);
 
+// ====================== PUT ======================
 router.put('/:codigoRecomendacoes', recomendacoesController.updateRecomendacoes);
 
 // router.get('/:codigoPais/:recomendacoes', paiseController.getByCode, recomendacoesController.getAllRecomendacoes); // PARA TESTE
